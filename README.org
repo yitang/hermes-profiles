@@ -1,4 +1,14 @@
 #+title: Hermes Profiles
 #+date: 2026-06-14
 
+Version-controlled Hermes agent profiles. 9 profiles: ackman, coder, fast,
+hobbies, luhmann, matrix-to-para, researcher, smart, tinker.
+
+**Setup:**
 ln -sf ~/para/1_projects/hermes-profiles ~/.hermes/profiles
+
+**What's tracked:** SOUL.md, config.yaml, skills/ (SKILL.md, references,
+scripts, templates), cron/, memories/, plans/
+
+**What's gitignored:** .env, auth.json, state.db*, sessions/, logs/, caches,
+home/, and other runtime artifacts. Secrets stay local.

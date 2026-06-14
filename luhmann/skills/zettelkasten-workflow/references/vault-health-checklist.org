@@ -1,0 +1,46 @@
+#+title: Vault Health Checklist
+#+date: [2026-06-10]
+
+Per-note questions to ask when reviewing your Zettelkasten.
+
+* Per-note check
+
+** Atomicity
+- [ ] Does the title capture a single idea?
+- [ ] Can you summarise the note in one sentence?
+- [ ] Are there multiple unrelated concepts in one file?
+  (If yes, extract each as its own file.)
+
+** State correctness
+- [ ] Does the tag (fleet / literature / none) match the content?
+  * :fleet: = raw scribbles. Are they meant to be processed?
+  * :literature: = summary of an external source. Is there a source?
+  * (none) = permanent. Is it in your own words?
+
+** Linking
+- [ ] If permanent: does it link to at least one other note?
+- [ ] If permanent: is there an [[id:...]] or [[file:...]] link, not just a tag?
+- [ ] Does the note have incoming links? (orphan detection)
+
+** Content quality
+- [ ] If >200 words, could it be split into multiple atomic ideas?
+- [ ] Does it contain actionable TODOs? (should be in GTD, not here)
+- [ ] Does it quote or paraphrase a source without adding your own analysis? (should be literature, not permanent)
+
+* Vault-level check
+
+- [ ] Fraction of notes tagged :fleet: (target: <10% of total)
+- [ ] Any :fleet: note >1 week old? (target: zero)
+- [ ] Fraction of permanent notes with zero outgoing links (target: <30%)
+- [ ] Do any notes exceed 300 words? (inspect for atomicity violations)
+- [ ] Are there broken [[id:]] links? (run org-roam-db-query)
+
+* Action table
+
+| Finding | Action |
+|---------|--------|
+| Fleet >1 week | Process or delete |
+| Orphan permanent note | Link it to something, or delete/archive |
+| Mixed-content mega note | Extract sections, retag original as :literature: |
+| TODO instead of idea | Move to task system, delete the note |
+| Unlinked permanent note | Add at least one outgoing link |

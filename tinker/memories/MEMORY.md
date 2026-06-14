@@ -1,0 +1,11 @@
+~/matrix/ is organized by domain (ds, finance, health, hobbies, learning, reflect, tools). Each domain root has .dir-locals.el setting org-roam-directory to meta-*/notes/ — org-roam vaults are per-domain, not per-project. When auditing vaults, check parent directories for dir-locals, not the project root.
+§
+The simplified matrix setup lives at ~/para/1_projects/org-roam-anywhere/yt-matrix.el. It replaces the old main.org → Python → transient_python.el pipeline with a single ~100-line elisp file. Key approach: define an alist of meta-* projects, generate capture templates + agenda commands programmatically, use org-roam-node-find with let-bound org-roam-directory for roam capture. The old exercise at ~/matrix/tools/emacs/exercises/2023-01-19-project-centric-setup/ and its generated files can be archived.
+§
+Runs Debian Linux (not macOS). Daily diary at ~/matrix/reflect/diaries/diary.org (6000+ lines, actively maintained). Uses beorg mobile app for daily planning via ~/git/beorg/daily_plan.org. Vocabulary roam (yt/add-vocabulary) was macOS-only via osx-dictionary — non-functional on Debian. PARA inbox capture at ~/para/4_inbox.org via C-c c t/n.
+§
+Runs Emacs with ~/bin/emacs30.2/bin/emacs --init-directory=~/.config/emacs/emacs.d_30.2. HOME env var is set to ~/.hermes/profiles/tinker/home, so ~ expansion is wrong for personal paths — must use absolute paths or HOME=/home/tangyi prefix.
+§
+The emacs_config.org file contains private/personal Emacs config. It's tangled to emacs_config.el and loaded from .emacs. Now reduced to 3 sections: org-capture (t/n/jd/jD), reading capture (Rn/Rv), and macOS-guarded vocabulary roam. Keep this file separate from config.org (public) even though it's no longer truly sensitive — the split is established convention.
+§
+Cash-flow accounts (current/credit: per-transaction) vs balance-sheet accounts (mortgage, pension, investments, property: periodic snapshots for net worth). Credit cards excluded from balance sheet (double-count). Property: £670k 2019 NatWest valuation = purchase price; £820k 2024 Barclays (mortgage offer PDF p.3). Separate config files for assets vs liabilities.

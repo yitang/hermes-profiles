@@ -1,0 +1,53 @@
+# === Secrets & credentials ===
+.env
+auth.json
+
+# === Runtime state & databases ===
+state.db
+state.db-shm
+state.db-wal
+processes.json
+*.lock
+
+# === Cache & temp files ===
+audio_cache/
+image_cache/
+cache/
+*.cache
+*.cache/
+__pycache__/
+*.pyc
+*.pyo
+
+# === Session & conversation data ===
+sessions/
+logs/
+*.log
+.hermes_history
+interrupt_debug.log
+.skills_prompt_snapshot.json
+
+# === Model & provider caches ===
+models_dev_cache.json
+ollama_cloud_models_cache.json
+provider_models_cache.json
+model_catalog.json
+
+# === Sandboxes & checkpoints ===
+sandboxes/
+checkpoints/
+pastes/
+workspace/
+home/
+
+# === Other runtime artifacts ===
+.restart_*
+.update_check
+auth.lock
+profile.yaml
+skins/
+bin/
+.hub/
+node_modules/
+yarn.lock
+package-lock.json

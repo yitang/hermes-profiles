@@ -1,0 +1,1 @@
+Maintains a Zettelkasten in org-roam — 140+ notes, all permanent notes (no literature/bib notes yet). Uses journal.org for fleeting notes. Values manual practice over automation for note-taking (e.g., hand-crafted indexes > auto-generated ones). Fleet (:fleet: tag) → literature (:literature: tag) → permanent notes, all in same folder.

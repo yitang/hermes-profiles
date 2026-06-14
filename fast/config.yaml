@@ -1,0 +1,13 @@
+model:
+  default: Qwen3.5-9B
+  provider: custom:qwen-35-9b
+custom_providers:
+  - base_url: http://192.168.1.34:8001/v1
+    name: qwen-35-9b
+    model: Qwen3.5-9B
+agent:
+  max_turns: 300
+skills:
+  external_dirs:
+  - ~/.agents/skills
+  - ~/para/2_areas/agents/skills

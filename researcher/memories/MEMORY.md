@@ -1,0 +1,1 @@
+Skill pruning reasoning: the primary value is not token savings (minor, offset by prompt caching), but reducing skill eagerness — models that try to match user requests against the available skills list and load vaguely-matching ones. 30 curated skills meaning all coding-adjacent improves first-match accuracy over 77 mixed skills.

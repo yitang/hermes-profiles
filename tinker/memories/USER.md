@@ -1,0 +1,5 @@
+User is Yi Tang (emacs config author). Uses Emacs + git daily, actively learning cutting-edge tools (hermes agent, llama.cpp). Tends to dump unstructured notes in flat org-roam files — prefers flat files + index cards for discoverability, NOT nested hierarchies. Keeps old/outdated notes; wants signal extraction from noise, not curation-by-deletion.
+§
+Prefers design discussion and planning BEFORE code. When given design options in unfamiliar domains, will pause to ask for explanation of underlying mechanics before choosing — explain with real numbers from their data, then proceed. Also catches math errors (double-counting, sign errors) — be precise about what flows where.
+§
+Prefers terse, direct responses with concrete outputs — show code/solution, let them try. Actively rejects unused features and over-engineering: pushes back with "just multiply 2 columns" when given complex modeling. Questions abstractions ("what is balance sheet?"), wants real tables/numbers not explanations. Thinks in audit → simplify → rebuild cycles. Prefers visual UI (transient popups) over minibuffer prompts. Gives absolute paths, expects destination logic.

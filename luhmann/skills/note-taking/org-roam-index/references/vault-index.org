@@ -1,0 +1,105 @@
+#+title: Notes Index
+#+filetags: :index:
+#+startup: content
+
+This index provides entry points into my org-roam Zettelkasten. Each section is a
+topic area, with related notes linked together.
+
+* Emacs Lisp Programming
+** Basic Data Structures
+- [[file:20240116175149-car_and_cdr.org][car and cdr]]
+- [[file:20240116190225-association_list_alist.org][association list (alist)]]
+- [[file:20240116175913-property_list.org][property list (plist)]]
+- [[file:20240116004750-hashtable.org][hashtable]]
+- [[file:20241117154927-membership.org][membership]]
+
+** List Manipulation
+- [[file:20221229205510-join_string.org][join string]]
+- [[file:20221229205153-split_string.org][split string]]
+- [[file:20221229205027-reduce.org][reduce]]
+- [[file:20221229205314-remove_element_from_list.org][remove element from list]]
+
+** Control Flow
+- [[file:20240109081729-flow_control.org][flow control]]
+- [[file:20231226230449-dolist.org][dolist]]
+- [[file:20221229205647-for_loop.org][for loop]]
+- [[file:20221229210141-loop_through_org_headlines.org][loop through org headlines]]
+
+** File I/O
+- [[file:20221229205942-append_to_file.org][append to file]]
+- [[file:20221229205757-file_exists.org][file exists]]
+- [[file:20221229205829-insert_file_content.org][insert file content]]
+- [[file:20221229205424-make_directory.org][make directory]]
+
+* Emacs Configuration
+- [[file:20250905160634-emacs.org][Emacs]]
+- [[file:20230202120029-emacs_as_service.org][Setup Emacs Servers in MacOS]]
+- [[file:20240104080608-start_up.org][emacs start-up]]
+- [[file:20240109072907-compose_mode.org][compose a new mode]]
+- [[file:20240109073041-derive_mode.org][derive mode]]
+- [[file:20240109074022-create_keymap.org][create keymap]]
+- [[file:20241119130356-buffer_local_variables.org][buffer local variables]]
+- [[file:20240111102026-batch_mode.org][batch mode]]
+
+* GPG & Encryption
+- [[file:20231223171525-gpg_agent.org][GPG Agent]]
+- [[file:20231223162455-gpg_export_keys.org][GPG Export Keys]]
+- [[file:20231223163930-gpg_decrypt.org][GPG Decrypt]]
+- [[file:20231223171702-gpg_pinentry.org][GPG Pinentry]]
+- [[file:20231223172722-gpg_symmetric_method.org][GPG Symmetric Method]]
+- [[file:20231223173049-gpg_asymmetric_method.org][GPG Asymmetric Method]]
+- [[file:20231223173305-gpg_configuration.org][GPG Configuration]]
+- [[file:20231223182628-gpg_encrypt.org][GPG Encrypt]]
+
+* Bash Scripting
+- [[file:20240107092042-bash_if_else.org][Bash if-else]]
+- [[file:20240107092216-bash_for_loop.org][Bash for-loop]]
+- [[file:20240107091949-bash_function_arguments.org][Bash function arguments]]
+- [[file:20240107092427-bash_test_empty_string.org][Bash Test Empty String]]
+- [[file:20240107092459-bash_test_file_exists.org][Bash Test File Exists]]
+- [[file:20250820095747-bash_parameter_substitution.org][Bash Parameter Substitution]]
+- [[file:20250820100518-bash_set_options.org][Bash Set Options]]
+- [[file:20250820100958-bash_source.org][Bash Source]]
+
+* Ledger (Accounting)
+- [[file:20250418170324-ledger_add_transaction.org][ledger add transaction]]
+- [[file:20241129180031-ledger_convert.org][ledger convert]]
+- [[file:20250102112005-ledger_export.org][ledger export]]
+- [[file:20250103114838-ledger_expressions.org][ledger expressions]]
+- [[file:20241129175636-ledger_filter.org][ledger filter]]
+- [[file:20250103120014-ledger_format.org][ledger format output]]
+- [[file:20241129174921-ledger_tags.org][ledger tags]]
+- [[file:20250105124009-ledger_transcation_state.org][ledger transaction state]]
+
+* SSH & Remote Access
+- [[file:20260516110350-ssh.org][SSH]]
+- [[file:20260226102129-ssh_port_forwarding.org][SSH Port Forwarding]]
+- [[file:20260510085635-sftp.org][SFTP]]
+- [[file:20260517124006-tramp.org][Tramp]]
+
+* System Administration
+- [[file:20240107092703-debian_dist_upgrade.org][Debian dist-upgrade]]
+- [[file:20260219171858-debian_nvidia_driver.org][Debian Nvidia Driver]]
+- [[file:20260516084516-systemd.org][systemd]]
+- [[file:20260326071413-netdata.org][Netdata]]
+- [[file:20260326073008-docker.org][Docker]]
+- [[file:20260510093134-borgbackup.org][BorgBackup]]
+- [[file:20260510094905-mount_usb_drive.org][Mount USB Drive]]
+
+* AI Agents & Local LLMs
+- [[file:20260505112647-hermes_agent.org][Hermes Agent]]
+- [[file:20260220130844-agent_shell.org][agent-shell]]
+- [[file:20260515213614-agent_client_protocol.org][Agent Client Protocol (ACP)]]
+- [[file:20260515214651-json_rpc.org][JSON-RPC]]
+- [[file:20260430084000-opencode.org][OpenCode]]
+- [[file:20260219154238-llama_cpp.org][llama.cpp]]
+- [[file:20260219155508-vllm.org][vLLM]]
+- [[file:20260219173357-gguf_format.org][GGUF Format]]
+- [[file:20260505213053-discord_bot.org][Discord Bot]]
+
+* Git & Networking
+- [[file:20240309114438-git_origin.org][git origin]]
+- [[file:20240309120310-git_downstream_upsteam.org][git downstream/upstream]]
+- [[file:20260520183926-git_worktree.org][git worktree]]
+- [[file:20260226101342-tailscale.org][Tailscale]]
+- [[file:20260226103636-virtual_private_server_vps.org][Virtual Private Server (VPS)]]

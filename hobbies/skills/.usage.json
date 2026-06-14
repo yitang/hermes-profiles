@@ -1,0 +1,28 @@
+{
+  "osmo-hardwax-oil": {
+    "archived_at": null,
+    "created_at": "2026-06-07T18:51:51.967282+00:00",
+    "created_by": "agent",
+    "last_patched_at": "2026-06-08T18:19:07.942165+00:00",
+    "last_used_at": "2026-06-10T16:38:28.064535+00:00",
+    "last_viewed_at": "2026-06-10T16:38:28.061415+00:00",
+    "patch_count": 3,
+    "pinned": false,
+    "state": "active",
+    "use_count": 4,
+    "view_count": 4
+  },
+  "youtube-content": {
+    "archived_at": null,
+    "created_at": "2026-06-07T18:51:35.602770+00:00",
+    "created_by": null,
+    "last_patched_at": null,
+    "last_used_at": "2026-06-07T18:51:35.609513+00:00",
+    "last_viewed_at": "2026-06-07T18:51:35.602796+00:00",
+    "patch_count": 0,
+    "pinned": false,
+    "state": "active",
+    "use_count": 1,
+    "view_count": 1
+  }
+}

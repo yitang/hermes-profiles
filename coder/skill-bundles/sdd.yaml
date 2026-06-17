@@ -1,0 +1,4 @@
+name: sdd
+skills:
+- software-development/subagent-driven-development
+description: Subagent-Driven Development — execute implementation plans via delegate_task

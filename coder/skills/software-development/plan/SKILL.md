@@ -43,19 +43,23 @@ If the task is code-related, include exact file paths, likely test targets, and 
 ## Save location
 
 Save the plan with `write_file` under:
-- `.hermes/plans/YYYY-MM-DD_HHMMSS-<slug>.md`
+- `.hermes/plans/YYYY-MM-DD_HHMMSS-<slug>.md` (default)
+- OR the project's convention (check AGENTS.md / README — e.g. `docs/`)
 
-Treat that as relative to the active working directory / backend workspace. Hermes file tools are backend-aware, so using this relative path keeps the plan with the workspace on local, docker, ssh, modal, and daytona backends.
+Before deciding the path, check the project's conventions:
+- Is there a `docs/` directory at the project root? Some projects keep plans alongside specs there.
+- Does AGENTS.md, README, or other context file specify where plans go?
+- If the user says "put it in docs/", follow that — it's a project convention, not a one-off whim.
 
-If the runtime provides a specific target path, use that exact path.
-If not, create a sensible timestamped filename yourself under `.hermes/plans/`.
+Default to `.hermes/plans/` when no project convention is apparent. If the user moves it, note the project preference and follow it next time.
 
 ## Interaction style
 
-- If the request is clear enough, write the plan directly.
+- If the request is clear enough, write the plan directly. Do not ask "shall I write the plan?" — just write it. The user asked for a plan; deliver the plan file.
 - If no explicit instruction accompanies `/plan`, infer the task from the current conversation context.
 - If it is genuinely underspecified, ask a brief clarifying question instead of guessing.
 - After saving the plan, reply briefly with what you planned and the saved path.
+- **Then offer a mapping walkthrough**: list each piece of feedback/requirement and which task in the plan addresses it. The user wants to understand the plan before approving — don't skip to execution without this.
 
 ---
 
@@ -310,6 +314,18 @@ git commit -m "type: description"
 
 **Bad:** "Create the model file"
 **Good:** "Create: `src/models/user.py`"
+
+### Asking Permission Instead of Writing
+
+**Bad:** "Shall I write the plan?" or "Let me know if you want me to proceed" — the user asked for a plan, so write it.
+
+**Good:** Write the plan file directly, then reply with the path and summary. If the request is underspecified, ask ONE clarifying question, then write it.
+
+### Skipping the Walkthrough
+
+**Bad:** Saving the plan and saying "ready to execute" without mapping feedback to tasks.
+
+**Good:** After saving, list each requirement/feedback point and which task addresses it. The user approves the plan based on this mapping, not the raw file.
 
 ## Execution Handoff
 

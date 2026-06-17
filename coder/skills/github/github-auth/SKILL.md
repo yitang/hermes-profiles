@@ -169,6 +169,36 @@ gh auth login
 # Authenticate via browser
 ```
 
+### Device Authorization Flow (API-based, no gh needed)
+
+If `gh` is not available, you can use the GitHub OAuth device flow to get a short-lived token for API operations:
+
+```bash
+# Step 1: Request device code
+response=$(curl -s -X POST \
+  https://github.com/login/device/code \
+  -H "Accept: application/json" \
+  -d "client_id=178c6fc778ccc68e1d6a&scope=repo,workflow")
+device_code=$(echo "$response" | python3 -c "import sys,json; print(json.load(sys.stdin)['device_code'])")
+user_code=$(echo "$response" | python3 -c "import sys,json; print(json.load(sys.stdin)['user_code'])")
+
+# Tell the user to visit https://github.com/login/device and enter the code
+echo "Enter code $user_code at https://github.com/login/device"
+
+# Step 2: Poll for the token (poll every 10s, up to 10 minutes)
+for i in $(seq 1 60); do
+  result=$(curl -s -X POST \
+    https://github.com/login/oauth/access_token \
+    -H "Accept: application/json" \
+    -d "client_id=178c6fc778ccc68e1d6a&device_code=$device_code&grant_type=urn:ietf:params:oauth:grant-type:device_code")
+  if echo "$result" | grep -q "access_token"; then
+    echo "$result" | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])"
+    break
+  fi
+  sleep 10
+done
+```
+
 ### Token-Based Login (Headless / SSH Servers)
 
 ```bash
@@ -245,3 +275,5 @@ fi
 | Credentials not persisting | Check `git config --global credential.helper` — must be `store` or `cache` |
 | Multiple GitHub accounts | Use SSH with different keys per host alias in `~/.ssh/config`, or per-repo credential URLs |
 | `gh: command not found` + no sudo | Use git-only Method 1 above — no installation needed |
+| Device flow polling user frustration | Device flow requires the user to enter a code in their browser. **Do not poll silently more than 2-3 rounds** (30 seconds). After that, ask the user directly: (a) provide a PAT, (b) create the repo on GitHub web, or (c) confirm they'll enter the code. Repeated silent polling without user confirmation is confusing and annoying. |
+| Device code expires (device_flow expired_token) | Device codes expire after ~15 minutes. If you get `expired_token`, start a fresh device flow immediately — the user likely entered a stale code. |

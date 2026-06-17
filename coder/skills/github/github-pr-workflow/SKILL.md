@@ -1,7 +1,7 @@
 ---
 name: github-pr-workflow
 description: "GitHub PR lifecycle: branch, commit, open, CI, merge."
-version: 1.1.0
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -209,7 +209,84 @@ for i in $(seq 1 20); do
 done
 ```
 
-## 5. Auto-Fixing CI Failures
+## 5. Addressing PR Review Feedback
+
+After receiving review comments, the PR needs revision before merging. This section covers how to process feedback efficiently.
+
+### Setup: Clone the fork to a dev directory
+
+Never modify the live installation clone. If your checkout is inside a live runtime path (e.g., `~/.hermes/hermes-agent/`), clone the fork separately:
+
+```bash
+mkdir -p ~/dev
+git clone https://github.com/<your-user>/<repo>.git ~/dev/<repo>
+cd ~/dev/<repo>
+```
+
+### Gather review context
+
+```bash
+# Fetch the review comment from the PR URL
+# Use web_extract on the PR URL to get the review summary
+
+# Add upstream remote to compare against latest main
+git remote add upstream https://github.com/<owner>/<repo>.git
+git fetch upstream main --depth=10
+```
+
+### Step 1: Understand what the reviewer is asking
+
+Read the full review comment. Key things to check:
+
+- Is the core approach approved or rejected?
+- Are there specific files/lines flagged?
+- Did the reviewer note any stale hunks (code that moved since the PR was created)?
+
+### Step 2: Compare PR branch against upstream main
+
+```bash
+# Check if upstream already merged similar fixes via other paths
+git log --oneline upstream/main -- <changed-file> | head -10
+
+# View current call sites on upstream main
+git show upstream/main:<file-path> | grep -n "<pattern>"
+
+# Check which PR hunks target code that no longer exists
+git diff upstream/main --stat
+git diff upstream/main -- <stale-file>
+```
+
+Key insight: An upstream commit may have already implemented parts of your fix under a different PR. Compare the PR against upstream/main — not just against the branch point — to avoid stale hunks.
+
+### Step 3: Identify what's still missing
+
+After comparing, classify each reviewer point:
+
+| Status | Action |
+|--------|--------|
+| Already on main | Drop the PR hunk entirely |
+| Stale location (code moved) | Apply the same change to the new location |
+| Valid and not on main | Keep the hunk |
+| Reviewer request (new work) | Add as new hunk |
+| Unrelated changes | Drop (e.g., .gitignore changes that don't belong) |
+
+### Step 4: Rebase onto latest upstream/main
+
+```bash
+git checkout feat/your-branch-name
+git pull origin feat/your-branch-name  # sync local with fork
+git rebase upstream/main
+```
+
+### Pitfalls
+
+- **Live repo danger**: If the repo checkout is also the runtime installation (e.g., `~/.hermes/hermes-agent/`), modifying it while a Hermes session is running can corrupt state. Always clone to a `~/dev/` directory for PR work.
+- **Stale base**: A PR opened weeks ago may target an old `main`. Compare against current `upstream/main`, not the branch point.
+- **Already-merged logic**: The reviewer may approve your approach but upstream may have merged it through another PR. Check `hermes_state.py`-style files for `timestamp`-like parameters before re-implementing.
+- **Moved call sites**: In a fast-moving codebase, branch copy code can relocate between `cli.py` → `hermes_cli/cli_commands_mixin.py` or `gateway/run.py` → `gateway/slash_commands.py`. Grep for the function call pattern on upstream/main to find the current location.
+- **Tests persist**: Even when the core implementation is already merged, the test coverage from your PR may still be valuable. Check if upstream has equivalent tests.
+
+## 6. Auto-Fixing CI Failures
 
 When CI fails, diagnose and fix. This loop works with either auth method.
 
@@ -274,7 +351,7 @@ When asked to auto-fix CI, follow this loop:
 5. Wait for CI → re-check status
 6. Repeat if still failing (up to 3 attempts, then ask the user)
 
-## 6. Merging
+## 7. Merging
 
 **With gh:**
 
@@ -327,7 +404,7 @@ curl -s -X POST \
   -d "{\"query\": \"mutation { enablePullRequestAutoMerge(input: {pullRequestId: \\\"$PR_NODE_ID\\\", mergeMethod: SQUASH}) { clientMutationId } }\"}"
 ```
 
-## 7. Complete Workflow Example
+## 8. Complete Workflow Example
 
 ```bash
 # 1. Start from clean main

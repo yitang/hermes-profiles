@@ -138,6 +138,38 @@ curl -s -X POST \
   -d '{"name": "my-new-project", "private": false}'
 ```
 
+### Pre-commit: Sensitive Data Scan
+
+Before the first commit (or any commit), scan staged files for secrets — API keys, tokens, passwords, and if this user's convention is to store secrets in `.env` files:
+
+```bash
+# Scan for API key patterns (sk-... format for OpenAI, DeepSeek, etc.)
+git grep -n 'sk-[a-zA-Z0-9]\{20,\}' -- '*.yaml' '*.yml' '*.json' '*.py' '*.sh' '*.md'
+
+# Scan for non-empty api_key values (exclude empty/placeholder)
+git grep -n 'api_key.*[a-zA-Z0-9]\{10,\}' -- '*.yaml' '*.yml' \
+  | grep -v "api_key: ''" | grep -v 'YOUR_' | grep -v 'placeholder'
+
+# Scan for Discord tokens
+git grep -n '[Dd][Ii][Ss][Cc][Oo][Rr][Dd].*[A-Za-z0-9_-]\{20,\}' -- '*.yaml' '*.yml' '*.json'
+
+# Scan for token/secret values
+git grep -n '[Tt][Oo][Kk][Ee][Nn].*[a-zA-Z0-9]\{10,\}' -- '*.yaml' '*.yml' '*.json'
+
+# Scan for passwords in configs
+git grep -n 'password\|secret_key\|private_key' -- '*.yaml' '*.yml' '*.json' '*.md' \
+  | grep -v '#\|://'
+
+# Scan for hardcoded IP addresses (local LAN is OK, but flag for awareness)
+git grep -n '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' -- '*.yaml' '*.yml' \
+  | grep -v '0\.0\.0\.0\|127\.0\.0\.1\|255\.255'
+```
+
+If you find a secret:
+1. Replace the actual value with a placeholder (`YOUR_*_KEY`, `PLACEHOLDER`)
+2. Tell the user to set the real value via `.env` or environment variable
+3. Verify the file is clean before committing
+
 ### From a Template
 
 **With gh:**

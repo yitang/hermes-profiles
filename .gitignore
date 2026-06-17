@@ -51,3 +51,21 @@ bin/
 node_modules/
 yarn.lock
 package-lock.json
+
+# === Profile-level runtime state (per-profile) ===
+**/gateway.pid
+**/gateway_state.json
+**/channel_directory.json
+**/response_store.db*
+**/skill_store.db*
+**/cron/jobs.json
+**/cron/output/
+**/lsp/
+**/plans/
+**/memories/MEMORY.md
+**/.curator_backups/
+
+# === Curator metadata (auto-generated, changes every session) ===
+**/.usage.json
+**/.bundled_manifest
+**/.curator_state

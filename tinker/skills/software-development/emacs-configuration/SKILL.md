@@ -135,3 +135,19 @@ Use `-l ~/.emacs` when the code depends on packages (transient, org-roam, org-ca
 - `read-multiple-choice` returns `(CHAR . LABEL-STRING)`, NOT the original alist entry — always look up with `assoc` + `char-to-string`.
 - Setting `user-emacs-directory` inside `.emacs` is too late to affect package directory.
 - After editing config.org or emacs_config.org, re-tangle to sync .el files.
+
+## Optional Packages (Load Only When Available)
+
+When an `.el` file loaded from `.emacs` (or anywhere in the load path) assumes a specific external package is installed — e.g., `fastmail.el` loads mu4e with hard-coded `:load-path`, `setq` values, hooks, and keymaps — wrap its ENTIRE contents in `(when (require 'pkg nil t))`. This is the pattern used for mu4e:
+
+```elisp
+;; In ~/.emacs or anywhere loaded by it:
+(load-file "path/to/fastmail.el")   ;; unconditionally loads file
+
+;; Inside fastmail.el — ALL 230+ lines wrapped:
+(when (require 'mu4e nil t)          ; returns nil if not found, no error
+  ;; all use-package declarations, setq values, hooks, keymaps below
+  ...)
+```
+
+Use `nil t` as the third arg to `require` so it returns nil instead of signaling an error. The entire block becomes a no-op when mu4e (or any other package) is absent — critical on systems like Debian where mu4e isn't installed but macOS has it via Homebrew.

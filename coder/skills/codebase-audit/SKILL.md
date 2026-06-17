@@ -107,3 +107,5 @@ If the audit reveals a reusable pattern that other projects would benefit from, 
 
 - `references/etl-patterns-single-user.md` — Condensed guide to adapting enterprise ETL concepts (CDC, canonical tables, DLQs) for single-user applications running locally on SQLite or small databases.
 - `references/codebase-audit-checklist.md` — Step-by-step checklist for conducting a codebase architecture audit efficiently.
+- `references/csv-detection-ambiguity.md` — How to handle ambiguous CSV headers in financial import pipelines (filename-first disambiguation before header catch-alls).
+- `references/flat-pipeline-restructure.md` — Target structure and missing-components checklist for reorganising flat Python data pipeline projects.

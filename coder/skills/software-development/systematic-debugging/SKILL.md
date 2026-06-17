@@ -218,6 +218,58 @@ search_files("similar_pattern", path="src/", file_glob="*.py")
 - Ask the user for help
 - Research more
 
+### 5. Persistence Pattern — When the User Says "Keep Digging"
+
+**When initial investigation hits a wall** (tests pass, error is intermittent, or the
+failing vs working comparison reveals no obvious difference) and the user asks you to
+research more before giving up:
+
+**Do NOT declare "not worth debugging" without first exhausting this checklist:**
+
+1. **Cross-machine comparison** — if the issue happens on machine A but not B,
+   enumerate every difference systematically:
+   - Python version (3.11 vs 3.14+)
+   - Library versions (`pip freeze` both, `diff` the outputs)
+   - OS / architecture (macOS x86_64 vs Linux aarch64)
+   - Network interface / source IP
+   - System clock sync status
+   - Cryptographic library versions and available backends
+   - **Cryptography library ABI** — same `pip freeze` version ≠ same compiled
+     ABI on different architectures. C extensions (cryptography, numpy) compile
+     different machine code per platform. A library that works on macOS
+     x86_64 may behave differently on Linux aarch64 even at the same version
+     number. Verify with a minimal crypto primitive test per machine.
+   - SSL/TLS library version
+
+2. **Library inspection** — read the relevant transport/protocol source code
+   directly. Trace the actual code path that produces the error:
+   - What does `perform_login()` actually do?
+   - What does `perform_handshake()` send over the wire?
+   - Are there fallback paths (e.g., default credentials) that behave
+     differently across platforms?
+
+3. **Version roll experiment** — install an older or newer version of the
+   failing library on the failing machine. If the same error persists across
+   versions, it's not a library regression — it's an environment incompatibility.
+
+4. **Raw protocol test** — bypass the library entirely. Open a raw TCP
+   connection to the device/endpoint and send the same bytes the library
+   sends. Compare response on both machines. This isolates whether the
+   library's byte assembly is wrong vs the transport layer.
+
+5. **Minimal reproduction** — strip the test down to the smallest possible
+   script. Remove all orchestration (discovery, device iteration, etc.)
+   and test a single connection with hardcoded parameters. Eliminate
+   variables until only the essential difference remains.
+
+6. **Signal when done** — after exhausting the checklist, report clearly:
+   what you tried, what differed, what didn't, and your best hypothesis
+   for the remaining gap. The user can then make an informed call on
+   whether to keep going.
+
+**When the user says "can you research it a bit before giving up?" they
+are asking for items 1-6, not for another single guess.**
+
 ---
 
 ## Phase 4: Implementation

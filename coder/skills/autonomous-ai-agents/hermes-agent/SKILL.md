@@ -828,11 +828,25 @@ and logs — avoids shell-escaping backslashes in bash.
 - **Tools/skills:** `/reset` starts a new session with updated toolset
 - **Config changes:** In gateway: `/restart`. In CLI: exit and relaunch.
 - **Code changes:** Restart the CLI or gateway process
-
 ### Skills not showing
+
 1. `hermes skills list` — verify installed
 2. `hermes skills config` — check platform enablement
 3. Load explicitly: `/skill name` or `hermes -s name`
+
+**Local skills not discovered after copying SKILL.md files to a profile's skills/ directory:**
+
+Hermes does NOT auto-discover SKILL.md files placed directly in `~/.hermes/profiles/<name>/skills/`. You need to add an `external_dirs` entry in the profile's config.yaml (or `~/.hermes/config.yaml` for the default profile):
+
+```yaml
+skills:
+  external_dirs:
+  - ~/.hermes/profiles/<name>/skills
+```
+
+After adding, restart Hermes — the skills appear in `hermes skills list` with source `local`.
+
+Note: `hermes skills install` only accepts hub identifiers (e.g. `official/research/duckduckgo-search`) or HTTP(S) URLs. Local file paths are not supported. The GitHub API rate limit (60/hr unauthenticated) can block installs; set `GITHUB_TOKEN` in `.env` to raise it to 5,000/hr.
 
 ### Gateway issues
 Check logs first:

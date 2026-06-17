@@ -61,10 +61,23 @@ Run `M-x yt/meta-enable RET` after loading yt-matrix.el to activate bindings.
 
 | Binding | Command | Purpose |
 |---------|---------|---------|
-| `C-c c` | `org-capture` | Capture dispatch |
-| `C-c m` | `yt/matrix3` | Matrix domain menu |
-| `C-c r` | `yt/meta--roam-dispatch` | Direct roam: pick domain → org-roam-node-find |
+| `C-c c` | `org-capture` | Capture dispatch: t (inbox TODO), n (inbox note), jD (daily plan via beorg), r* (roam), R* (reading) |
+| `C-c m` | `yt/matrix3` | Matrix domain selection → action menu: TODO, Note, Journal, Roam, Dired, Agenda |
+| `C-c r` | `yt/meta--roam-dispatch` | Direct roam dispatch: pick domain → org-roam-node-find |
+| `C-c n t` | `my/org-roam-set-note-type` | Set note type tag on current roam buffer (literature/fleeting/permanent) |
 | `C-c n f` | `org-roam-node-find` | Standard roam find (works if .dir-locals.el context active) |
+| `C-c n i` | `org-roam-node-insert` | Insert roam link |
+| `C-c n l` | `org-roam-buffer-toggle` | Toggle backlinks buffer |
+| `C-c n d` | `org-roam-dailies-map` | Daily notes menu |
+
+## Config Split Detail
+
+| File | Content | Git repo | Tangles to |
+|------|---------|----------|------------|
+| `config.org` (~/.config/emacs/emacs.d_30.2/) | Public config — packages, keybinds, org-roam, programming modes (~80 sections, ~4300 lines) | yitang/.emacs.d (public) | `lisp/*.el` (10+ files via load_config.el) |
+| `emacs_config.org` (~/matrix/tools/dotfiles/) | Private config — personal capture templates, journaling, reading notes (~140 lines, 3 sections) | yitang/dotfiles (private) | `emacs_config.el` (single file) |
+
+Split originally motivated by keeping diary paths and encrypted notes out of public repo. Kept for convention now.
 
 ## Org-Roam Integration
 
@@ -135,19 +148,14 @@ Use `-l ~/.emacs` when the code depends on packages (transient, org-roam, org-ca
 - `read-multiple-choice` returns `(CHAR . LABEL-STRING)`, NOT the original alist entry — always look up with `assoc` + `char-to-string`.
 - Setting `user-emacs-directory` inside `.emacs` is too late to affect package directory.
 - After editing config.org or emacs_config.org, re-tangle to sync .el files.
-
-## Optional Packages (Load Only When Available)
-
-When an `.el` file loaded from `.emacs` (or anywhere in the load path) assumes a specific external package is installed — e.g., `fastmail.el` loads mu4e with hard-coded `:load-path`, `setq` values, hooks, and keymaps — wrap its ENTIRE contents in `(when (require 'pkg nil t))`. This is the pattern used for mu4e:
-
-```elisp
-;; In ~/.emacs or anywhere loaded by it:
-(load-file "path/to/fastmail.el")   ;; unconditionally loads file
-
-;; Inside fastmail.el — ALL 230+ lines wrapped:
-(when (require 'mu4e nil t)          ; returns nil if not found, no error
-  ;; all use-package declarations, setq values, hooks, keymaps below
-  ...)
-```
-
-Use `nil t` as the third arg to `require` so it returns nil instead of signaling an error. The entire block becomes a no-op when mu4e (or any other package) is absent — critical on systems like Debian where mu4e isn't installed but macOS has it via Homebrew.
+- **`${slug}` and `${title}`** only work in `org-roam-capture-templates`. In regular `org-capture-templates` they're literal text — not expanded.
+- **Both `config.org` → `lisp/general.el` AND `emacs_config.org` → `emacs_config.el` use `setq` for `org-capture-templates`**. The later one wins. Only `yt-matrix.el` uses `append`. If templates disappear, check load order.
+- `(function ...)` capture targets receive NO arguments from org-capture. To parameterize, use closure (lambda) or a state variable.
+- **`(defvar org-roam-directory)` / `(defvar org-roam-db-location)`** forward declarations needed at file top before any `let` binds them — prevents "Defining as dynamic an already lexical var" byte-compile error.
+- **Batch testing**: Always pass `-l ~/.emacs` when testing code that depends on packages (transient, org-roam) because batch mode doesn't load user config by default. For non-matrix tests, run without `(yt/meta-enable)`:
+  ```bash
+  HOME=/home/tangyi ~/bin/emacs30.2/bin/emacs \
+    --init-directory=~/.config/emacs/emacs.d_30.2 \
+    --batch -l ~/.emacs \
+    --eval "(message \"OK\")"
+  ```

@@ -70,5 +70,15 @@ package-lock.json
 **/.bundled_manifest
 **/.curator_state
 
+# === Skill template / reference artifacts (auto-generated) ===
+**/templates/
+**/templates/*.aux
+**/templates/*.log
+**/templates/*.out
+**/templates/*.pdf
+**/templates/*.tex
+**/templates/*.bib.txt
+**/LICENSE.txt
+
 # === Tracked in separate repo ===
 **/scripts/tapo-*

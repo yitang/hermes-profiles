@@ -18,6 +18,26 @@ File tools do not expand shell variables. Do not pass paths containing `$OBSIDIA
 
 If the vault path is unknown, `terminal` is acceptable for resolving `OBSIDIAN_VAULT_PATH` or checking whether the fallback path exists. Once the path is known, switch back to file tools.
 
+## PARA fallback (no Obsidian vault)
+
+This user (Yi Tang) uses Org-mode notes in a PARA filesystem at `~/para/`. If
+no Obsidian vault is found, check `~/para/1_projects/` for project notes. The
+convention is:
+
+- `~/para/1_projects/<project-name>/NOTES.org` — project summary, status, findings
+- `~/para/1_projects/<project-name>/README.org` — orientation / tl;dr
+- `~/para/1_projects/<project-name>/TASKS.org` — outstanding tasks
+- Project code lives in `~/dev/<repo-name>/`, not in PARA
+
+When asked to "draft a note about this project", follow this workflow:
+
+1. Explore the project — read REPORT.md, README.md, git log, check structure
+2. Check note-taking infrastructure: try Obsidian vault first, fall back to PARA
+3. Scan existing PARA 1_projects/ for conventions (check existing NOTES.org files
+   for format patterns — some use org-mode tables, some use section headings)
+4. Write NOTES.org (org-mode) in `~/para/1_projects/<name>/` with:
+   - #+TITLE, #+DATE, #+STATUS, #+FILE (pointing to the real code repo)
+
 ## Read a note
 
 Use `read_file` with the resolved absolute path to the note. Prefer this over `cat` because it provides line numbers and pagination.

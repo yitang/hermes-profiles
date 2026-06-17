@@ -1,3 +1,5 @@
+Preferences (editor, Python, Org mode, response style): load skill_view(name="user-preferences").
+
 User is Yi Tang (emacs config author). Uses Emacs + git daily, actively learning cutting-edge tools (hermes agent, llama.cpp). Tends to dump unstructured notes in flat org-roam files — prefers flat files + index cards for discoverability, NOT nested hierarchies. Keeps old/outdated notes; wants signal extraction from noise, not curation-by-deletion.
 §
 Prefers design discussion and planning BEFORE code. When given design options in unfamiliar domains, will pause to ask for explanation of underlying mechanics before choosing — explain with real numbers from their data, then proceed. Also catches math errors (double-counting, sign errors) — be precise about what flows where.

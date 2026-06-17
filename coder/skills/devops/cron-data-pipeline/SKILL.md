@@ -92,6 +92,27 @@ This forces the script to run against the correct Python with all dependencies.
 ```bash
 hermes cron create --name "<job-name>" --schedule "*/15 * * * *" \
   --script ~/.hermes/profiles/<profile>/scripts/<script>.py --no-agent
+### 3. Register the poll cron (no-agent mode)
+
+**⛔ Version note: CLI syntax differs between Hermes versions.**
+
+On Hermes v0.16.0 and later, `--schedule` is NOT a valid flag. The schedule expression is a **positional argument** at the end:
+
+```bash
+hermes cron create --name "<job>" "*/15 * * * *" --script <script> --no-agent
+```
+
+On earlier versions, `--schedule` IS a flag:
+
+```bash
+hermes cron create --name "<job>" --schedule "*/15 * * * *" --script <script> --no-agent
+```
+
+Check which syntax your Hermes version expects:
+```bash
+hermes cron create --help | grep schedule
+# If it shows --schedule, use flag syntax
+# If schedule is listed under "positional arguments", use positional syntax
 ```
 
 `--no-agent` means: run the script directly, skip the LLM. The script's stdout becomes the delivered message. Empty stdout = silent (nothing sent to user). This is ideal for routine polls where only anomalies should produce output.

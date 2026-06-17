@@ -354,6 +354,9 @@ $HERMES_HOME/skills/        Installed skills
 
 Profiles use `~/.hermes/profiles/<name>/` with the same layout.
 
+Version-controlling profiles with git (what to track, what to ignore,
+config migration, curator noise): `skill_view(name="hermes-agent", file_path="references/profile-git-management.md")`.
+
 ### Config Sections
 
 Edit with `hermes config edit` or `hermes config set section.key value`.

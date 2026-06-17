@@ -297,6 +297,66 @@ hermes profile list
 
 The kanban-orchestrator skill (loaded separately) has the full decomposition playbook. This skill covers how to create the profiles that orchestrator dispatches to.
 
+## Version-Controlling Profiles with Git
+
+When profiles live in a git repo (symlinked from `~/.hermes/profiles/`), Hermes writes runtime state directly into the working tree — config rewrites, curator pruning, cron output, gateway PIDs. Without discipline, `git status` shows 100+ noise files.
+
+### What to Track
+
+- **`<profile>/config.yaml`** — model, provider, toolset, gateway config
+- **`<profile>/SOUL.md`** — role personality
+- **`<profile>/memories/USER.md`** — user preferences (MEMORY.md is auto-generated, ignore)
+- **`<profile>/skills/`** — user-created skills and references
+- **`<profile>/scripts/`** — cron scripts and other user-authored automation
+
+### What to Ignore — `.gitignore` Patterns
+
+```
+# === Runtime artifacts (per-profile) ===
+**/gateway.pid
+**/gateway_state.json
+**/channel_directory.json
+**/response_store.db*
+**/skill_store.db*
+**/cron/jobs.json
+**/cron/output/
+**/lsp/
+**/plans/
+**/memories/MEMORY.md
+**/.curator_backups/
+
+# === Curator metadata (auto-generated, changes every session) ===
+**/.usage.json
+**/.bundled_manifest
+**/.curator_state
+
+# === Per-user preference: content tracked elsewhere ===
+**/scripts/tapo-*
+```
+
+If metadata files are already tracked from an initial import, stop tracking without deleting on disk:
+
+```bash
+git rm --cached '**/.usage.json' '**/.bundled_manifest' '**/.curator_state'
+```
+
+### Dealing with Config Format Migration
+
+Hermes rewrites `config.yaml` to its current format when it loads a profile. The first load after a Hermes version upgrade produces a large one-time diff — same semantics, reshuffled layout. Commit it, don't fight it.
+
+### Curator Noise
+
+The Hermes curator (`hermes curator prune-bundled-skills`) deletes bundled skills and installs replacements automatically, producing git deletions + additions. These are legitimate but not user-driven. Commit curator-work separately if you want to see only your own changes.
+
+### Pitfalls
+
+- **Don't track metadata files** — `.usage.json`, `.bundled_manifest`, `.curator_state` change every session, zero signal
+- **Runtime artifacts accumulate silently** — check `git status` periodically, update `.gitignore` proactively
+- **Config rewrites are one-time per upgrade** — if `config.yaml` keeps changing, Hermes may have been mid-write
+- **Scripts may belong in a separate repo** — dedicated monitoring scripts (e.g. Tapo P110 power monitoring) are often better tracked in their own repo
+
+Detailed reference with `.gitignore` examples: `skill_view(name="profile-authoring", file_path="references/profile-git-management.md")`
+
 ## Verification
 
 ```bash

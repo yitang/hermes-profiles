@@ -13,14 +13,14 @@ or change — model config, user preferences, curated skills.
 
 **What's not tracked (gitignored):**
 
-| Pattern | Why |
-|---|---|
-| `.usage.json`, `.bundled_manifest`, `.curator_state` | Auto-generated metadata, changes every session |
-| `channel_directory.json`, `gateway.*`, `response_store.db*` | Runtime state — PID files, gateway state, DB WAL |
-| `cron/jobs.json`, `cron/output/` | Cron job definitions and execution output |
-| `lsp/` | LSP server node_modules — auto-installed |
-| `plans/` | Hermes-generated session plans |
-| `memories/MEMORY.md` | Agent memory notes (auto-managed) |
-| `.curator_backups/` | Curator pre-prune backups |
-| `scripts/tapo-*` | Live in a separate repo |
-| `.env`, `auth.json`, `state.db*`, `sessions/`, `logs/`, caches | Secrets and transient data |
+| Pattern                                                        | Why                                              |
+|----------------------------------------------------------------+--------------------------------------------------|
+| `.usage.json`, `.bundled_manifest`, `.curator_state`           | Auto-generated metadata, changes every session   |
+| `channel_directory.json`, `gateway.*`, `response_store.db*`    | Runtime state — PID files, gateway state, DB WAL |
+| `cron/jobs.json`, `cron/output/`                               | Cron job definitions and execution output        |
+| `lsp/`                                                         | LSP server node_modules — auto-installed         |
+| `plans/`                                                       | Hermes-generated session plans                   |
+| `memories/MEMORY.md`                                           | Agent memory notes (auto-managed)                |
+| `.curator_backups/`                                            | Curator pre-prune backups                        |
+| `scripts/tapo-*`                                               | Live in a separate repo                          |
+| `.env`, `auth.json`, `state.db*`, `sessions/`, `logs/`, caches | Secrets and transient data                       |

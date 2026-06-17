@@ -69,3 +69,6 @@ package-lock.json
 **/.usage.json
 **/.bundled_manifest
 **/.curator_state
+
+# === Tracked in separate repo ===
+**/scripts/tapo-*

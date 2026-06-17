@@ -1,0 +1,33 @@
+#+title: Notes
+#+date: 2026-06-17
+
+* Profile inventory
+
+| Profile        | Model                  | Provider           | Notes                                  |
+|----------------+------------------------+--------------------+----------------------------------------|
+| ackman         | Qwen3.6-35B-A3B        | trx4 (local:8000)  | general-purpose                        |
+| coder          | deepseek-v4-flash      | API (current)      | primary dev (this session), full skills |
+| fast           | Qwen3.5-9B             | trx4 (local:8001)  | lightweight model, fast replies        |
+| hobbies        | Qwen3.6-35B-A3B        | trx4 (local:8000)  | hobby projects                         |
+| luhmann        | deepseek-v4-flash      | API                | note-taking / zettelkasten, catgirl    |
+| matrix-to-para | Qwen3.6-35B-A3B        | trx4 (local:8000)  | Matrix → PARA pipeline                 |
+| researcher     | Qwen3.6-35B-A3B        | trx4 (local:8000)  | deep research, no custom_providers sec |
+| smart          | Qwen3.6-35B-A3B        | trx4 (local:8000)  | smart home / automations               |
+| tinker         | deepseek-v4-flash      | API                | experimental / playground              |
+
+* Key decisions
+
+- Symlinked to ~/.hermes/profiles/ (not copied) — edit in place
+- 5 profiles on TRX4 (Qwen3.6-35B-A3B at :8000), 1 on fast (Qwen3.5-9B at :8001), 3 on API
+- Tapo scripts moved to separate repo — gitignored here
+- TRX4 retired 2026-06-17 (109 kWh/mo / £27.26 vs cheaper/better DS V4 Flash API) — only future use is privacy-required workloads
+- /ackman, /hobbies, /matrix-to-para, /researcher, /smart still reference trx4; needs migration if trx4 stays offline
+
+* Structural notes
+
+- coder and tinker use _config_version: 29 (latest Hermes format with approvals, auxiliary)
+- luhmann and researcher use older format (no approvals block, no custom_providers)
+- all share external skills: ~/.agents/skills, ~/para/2_areas/agents/skills
+- no docs/ folder yet — no specs or plans written
+- coder/hobbies/smart/researcher use toolsets: [hermes-cli]; luhmann too
+- git log: 6 commits since initial import (Apr 23 → Jun 17), mostly README docs and Tapo cleanup

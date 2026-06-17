@@ -116,6 +116,8 @@ Good for users who prefer SSH or already have keys set up.
 
 ```bash
 ls -la ~/.ssh/id_*.pub 2>/dev/null || echo "No SSH keys found"
+# Also check for non-standard key names
+find ~/.ssh -name "*.pub" -maxdepth 1 2>/dev/null
 ```
 
 **Step 2: Generate a key if needed**
@@ -133,21 +135,61 @@ Tell the user to add the public key at: **https://github.com/settings/keys**
 - Paste the public key content
 - Give it a title like "hermes-agent-<machine-name>"
 
-**Step 3: Test the connection**
+**Step 3: Fix private key permissions**
+
+SSH refuses keys with open permissions. Always fix before testing:
+
+```bash
+chmod 600 ~/.ssh/id_ed25519
+# Or for non-standard key names:
+chmod 600 ~/.ssh/mbp
+```
+
+**Step 4: Configure `~/.ssh/config`**
+
+Set up automatic key selection, agent loading, and (on macOS) keychain passphrase caching:
+
+```
+Host github.com
+  Hostname ssh.github.com
+  Port 443
+  IdentityFile ~/.ssh/id_ed25519   # or whatever your key is named
+  AddKeysToAgent yes               # auto-load into agent on first use
+
+# macOS only: cache passphrase in Keychain
+Match host github.com exec "uname -s | grep -qi darwin"
+  UseKeychain yes
+```
+
+- `AddKeysToAgent yes` — works on macOS and Linux (OpenSSH 7.2+), loads the key into `ssh-agent` automatically
+- `UseKeychain yes` — macOS only, caches the passphrase in Keychain so you type it once per reboot
+- **Symlink caveat**: `~/.ssh/config` may be a symlink to a dotfiles repo. On macOS, `sed -i ''` only works on regular files — resolve the symlink first with `readlink -f ~/.ssh/config` and edit the target file directly.
+
+**Step 5: Load the key into the agent**
+
+If the key has a passphrase, load it manually (you'll be prompted once):
+
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+With `AddKeysToAgent yes` and `UseKeychain yes`, this is a one-time step per reboot.
+
+**Step 6: Test the connection**
 
 ```bash
 ssh -T git@github.com
 # Expected: "Hi <username>! You've successfully authenticated..."
 ```
 
-**Step 4: Configure git to use SSH for GitHub**
+**Step 7: Configure git to use SSH for GitHub**
 
 ```bash
 # Rewrite HTTPS GitHub URLs to SSH automatically
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 ```
 
-**Step 5: Configure git identity**
+**Step 8: Configure git identity**
 
 ```bash
 git config --global user.name "Their Name"
@@ -271,9 +313,11 @@ fi
 | `git push` asks for password | GitHub disabled password auth. Use a personal access token as the password, or switch to SSH |
 | `remote: Permission to X denied` | Token may lack `repo` scope — regenerate with correct scopes |
 | `fatal: Authentication failed` | Cached credentials may be stale — run `git credential reject` then re-authenticate |
-| `ssh: connect to host github.com port 22: Connection refused` | Try SSH over HTTPS port: add `Host github.com` with `Port 443` and `Hostname ssh.github.com` to `~/.ssh/config` |
+| `ssh -T git@github.com` → `Permission denied (publickey)` but `ssh-add -l` shows a key | Key is loaded in agent but not added to GitHub account. Run `cat ~/.ssh/id_*.pub` and add the output at **https://github.com/settings/keys** — click "New SSH key", paste, give it a title |
+| `Permissions NNNN for '/path/to/key' are too open` | Private key has open permissions. Run `chmod 600 ~/.ssh/<keyname>` — SSH requires private keys to be readable only by the owner |
 | Credentials not persisting | Check `git config --global credential.helper` — must be `store` or `cache` |
 | Multiple GitHub accounts | Use SSH with different keys per host alias in `~/.ssh/config`, or per-repo credential URLs |
 | `gh: command not found` + no sudo | Use git-only Method 1 above — no installation needed |
+| `sed -i ''` fails with "in-place editing only works for regular files" | `~/.ssh/config` is a symlink. Use `readlink -f ~/.ssh/config` to find the real path, then edit that file directly. This is common with dotfiles repos |
 | Device flow polling user frustration | Device flow requires the user to enter a code in their browser. **Do not poll silently more than 2-3 rounds** (30 seconds). After that, ask the user directly: (a) provide a PAT, (b) create the repo on GitHub web, or (c) confirm they'll enter the code. Repeated silent polling without user confirmation is confusing and annoying. |
 | Device code expires (device_flow expired_token) | Device codes expire after ~15 minutes. If you get `expired_token`, start a fresh device flow immediately — the user likely entered a stale code. |

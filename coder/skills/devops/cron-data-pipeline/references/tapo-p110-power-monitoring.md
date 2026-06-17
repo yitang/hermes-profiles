@@ -70,6 +70,24 @@ for ip in raw_devices:
 - HTTP port 80, no HTTPS
 - No persistent connection needed — query and disconnect per sample
 
+## ARM Linux quirk (RP4, Debian 12, aarch64)
+
+`DeviceConnectionParameters` on ARM Linux lacks the `http_port` parameter.
+Remove it when running on ARM:
+
+```python
+conn_params = DeviceConnectionParameters(
+    device_family=DeviceFamily.SmartTapoPlug,
+    encryption_type=DeviceEncryptionType.Aes,
+    login_version=2,
+    https=False,
+    # NOTE: http_port unsupported on ARM Linux — omit it
+)
+```
+
+The full parameter list works on macOS x86_64. On ARM, omitting `http_port`
+defaults to 80.
+
 ## Sample wiring (profile ``coder``)
 
 ```

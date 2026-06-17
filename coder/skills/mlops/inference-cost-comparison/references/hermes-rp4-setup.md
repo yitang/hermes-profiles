@@ -81,22 +81,44 @@ Only HTTP URLs are accepted as identifiers.
 ## Color fix over SSH
 
 The default Hermes skin uses 24-bit truecolor escape codes that render
-incorrectly over many SSH connections. Fix (permanent):
+incorrectly over many SSH connections. **Add this to config.yaml as a
+permanent fix:**
 
 ```yaml
 skin: daylight
 ```
 
-In config.yaml. See the "Hermes colors broken over SSH" quirk in the
-parent skill for details and alternative fixes.
+If the skin switch alone doesn't work, also set:
+```bash
+export RICH_FORCE_COLORS=true
+```
+
+See the "Hermes colors broken over SSH" quirk in the parent skill for
+details and alternative fixes.
+
+## Cron jobs (now working)
+
+The gateway runs successfully on RP4 with `hermes gateway run --force`.
+Cron jobs can be created with:
+
+```bash
+# v0.16 syntax: schedule is positional, NOT --schedule flag
+hermes cron create --name "my-job" --script ~/scripts/poll.py --no-agent "*/15 * * * *"
+```
+
+Key gotcha: `--schedule` is NOT a valid flag in v0.16. The schedule
+expression is a positional argument at the end.
+
+To make cron persistent across SSH disconnects, run the gateway in a
+`tmux` or `screen` session rather than relying on launchd (which isn't
+set up on the RP4).
 
 ## Known limitations
 
-- **Gateway not needed** — the RP4 in this setup is used for interactive
-  chat sessions only (API-based), not for running cron jobs. The gateway
-  service (launchd equivalent) is not set up.
 - **python-kasa Tapo auth fails** — the AES transport cannot authenticate
   with Tapo P110 plugs from RP4. Root cause unknown; workaround is to run
   Tapo cron on a different machine.
 - **No local LLM** — the RP4 has no GPU and only 1.8GB RAM. All inference
   goes through the cloud API.
+- **launchd not available** — use `tmux` + `hermes gateway run --force`
+  for persistent gateway sessions instead of a systemd service.

@@ -1,5 +1,7 @@
+Preferences (editor, Python, Org mode, response style): load skill_view(name="user-preferences").
+
 Data-driven pragmatic decision maker. Prefers "plan first" workflow explicitly. Thinks in multi-currency cost comparisons (RMB, GBP, USD). UK-based (0.25 GBP/kWh). Uses PARA filesystem (~/para/). Runs 9+ Hermes profiles for role separation. Dual-machine: macOS desktop + Linux secondary. Uses Bitwarden. Retired TRX4 LLM server (3080+3090, Qwen) after analysis showed DS V4 Flash cheaper and better for daily coding — only runs local for privacy now. Has 3 Tapo P110(UK) plugs with cron power monitoring. Daily driver: DS V4 Flash. Profile-based role separation preferred over external CLIs.
 §
-Response style: terminal-friendly plain text (tables, code blocks). Write the plan directly, don't ask permission. Verify cost figures against source of truth — use actual billing page or session DB (input_tokens, output_tokens columns), not estimated_cost_usd which can be wrong. cache_read_tokens in sessions table is KV cache size, not cached prompt tokens. Session DBs on different machines hold different data — check the right one. Data-driven: prefers real measurements over estimates. Corrects errors directly when spotted (idle timing, label mappings).
+Response style: terminal-friendly plain text, write plans directly. Verify costs from billing page or session input_tokens/output_tokens, not estimated_cost_usd. cache_read_tokens = KV cache size, not cached prompts. Correct errors when spotted.
 §
-Wants deeper research before giving up on tech problems. Security blocks: says "continue. my stake" — proceed. Corrects errors directly. Terminal-friendly tables + code blocks.
+Python: pytest for testing, uv for venv management, pandas for CSV/data loading, plotnine for visualisation. Prefers org-mode for notes.

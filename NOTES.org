@@ -5,7 +5,6 @@
 
 | Profile        | Model                  | Provider              | Notes                                  |
 |----------------+------------------------+----------------------+----------------------------------------|
-| default        | deepseek-v4-flash       | API                  | fallback profile                       |
 | ackman         | deepseek-v4-flash       | API                  | general-purpose                        |
 | coder          | deepseek-v4-flash       | API (current)        | primary dev (this session), full skills |
 | hobbies        | deepseek-v4-flash       | API                  | hobby projects                         |
@@ -14,23 +13,16 @@
 | researcher     | deepseek-v4-flash       | API                  | deep research                          |
 | tinker         | deepseek-v4-flash       | API                  | experimental / playground              |
 
-* Default profile
+* Profiles removed (2026-06-17)
+- fast/, smart/ — deleted (no longer needed)
+- default/ — removed from repo (will revisit later)
 
-The `default/` profile in the repo mirrors `~/.hermes/` config. To make it
-active when running without `--profile`, either:
-
-1. `hermes --profile default` (always specify the profile), or
-2. Remove/replace `~/.hermes/config.yaml` so Hermes falls through to
-   `profiles/default/config.yaml` (untested — may need Hermes support)
-
-For now, the actual default at `~/.hermes/config.yaml` (still on TRX4 v27)
-is untouched. Run hermes with `--profile <name>` to use a repo-managed
-profile.
-Deleted fast/ and smart/ — no longer needed.
 All profiles migrated from TRX4 (retired) to deepseek-v4-flash API.
-
-* Config format
 All profiles now on _config_version: 29.
+
+* Default profile (on hold)
+The live default at ~/.hermes/ (config, SOUL.md, memories, skills) is
+untouched — still on TRX4 v27. Not tracked in repo. Will revisit.
 
 * Key decisions
 

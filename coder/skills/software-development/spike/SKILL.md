@@ -192,6 +192,13 @@ Propose 2-4 candidates as Given/When/Then. Let the user pick.
 - `README.md` per spike captures question, approach, results, verdict
 - Keep the code throwaway — a spike that takes 2 days to "clean up for production" was a bad spike
 
+## Reference files
+
+These live in the skill's `references/` directory alongside this file:
+
+- **`references/tesseract-ocr-spike.md`** — Running Tesseract OCR in a disposable spike: Docker Alpine setup, PSM modes, preprocessing pipeline (don't binarize aggressively), pitfall list. Load when the spike involves OCR on signs/labels/text-in-images.
+- **`references/osm-overpass-api-query.md`** — Querying OSM Overpass API for geospatial data: rate limiting, UK parking tag reference, Python query template, coverage notes. Load when the spike involves OSM data, maps, or location-based queries.
+
 ## Attribution
 
 Adapted from the GSD (Get Shit Done) project's `/gsd-spike` workflow — MIT © 2025 Lex Christopherson ([gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done)). The full GSD system offers persistent spike state, MANIFEST tracking, and integration with a broader spec-driven development pipeline; install with `npx get-shit-done-cc --hermes --global`.

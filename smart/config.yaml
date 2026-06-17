@@ -8,6 +8,7 @@ custom_providers:
 onboarding:
   seen:
     tool_progress_prompt: true
+    busy_input_prompt: true
 agent:
   max_turns: 300
 skills:

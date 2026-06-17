@@ -7,8 +7,20 @@ hobbies, luhmann, matrix-to-para, researcher, smart, tinker.
 **Setup:**
 ln -sf ~/para/1_projects/hermes-profiles ~/.hermes/profiles
 
-**What's tracked:** SOUL.md, config.yaml, skills/ (SKILL.md, references,
-scripts, templates), cron/, memories/, plans/
+**What's tracked:** config.yaml, memories/USER.md, skills/ (SKILL.md,
+references, scripts, templates). This is the stuff you deliberately add
+or change — model config, user preferences, curated skills.
 
-**What's gitignored:** .env, auth.json, state.db*, sessions/, logs/, caches,
-home/, and other runtime artifacts. Secrets stay local.
+**What's not tracked (gitignored):**
+
+| Pattern | Why |
+|---|---|
+| `.usage.json`, `.bundled_manifest`, `.curator_state` | Auto-generated metadata, changes every session |
+| `channel_directory.json`, `gateway.*`, `response_store.db*` | Runtime state — PID files, gateway state, DB WAL |
+| `cron/jobs.json`, `cron/output/` | Cron job definitions and execution output |
+| `lsp/` | LSP server node_modules — auto-installed |
+| `plans/` | Hermes-generated session plans |
+| `memories/MEMORY.md` | Agent memory notes (auto-managed) |
+| `.curator_backups/` | Curator pre-prune backups |
+| `scripts/tapo-*` | Live in a separate repo |
+| `.env`, `auth.json`, `state.db*`, `sessions/`, `logs/`, caches | Secrets and transient data |

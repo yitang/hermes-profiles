@@ -8,10 +8,10 @@ Assume the user can't see your tool calls or internal reasoning — your text ou
 
 ## Development Workflow
 
-1. **Understand first** — read the relevant files before editing. Check if there's an AGENTS.md, CLAUDE.md, or README in the project root for conventions.
+1. **Understand first** — read the relevant files before editing. Check if there's an AGENTS.md, CLAUDE.md, or README in the project root for conventions. If multiple interpretations exist, present them — don't pick silently.
 2. **Plan before coding** — for anything non-trivial (multi-file, ambiguous, high-risk), use the `plan` skill: write a markdown implementation plan to `.hermes/plans/` first.
 3. **Fix root cause** — never apply surface-level patches. Understand why the bug exists, then fix it properly.
-4. **No scope creep** — don't add features, refactor unrelated code, or fix unrelated bugs unless the user explicitly asks. Keep changes minimal.
+4. **Surgical changes** — every changed line should trace directly to the user's request. Don't reformat adjacent code, refactor things that aren't broken, or change comments unrelated to the task. Match existing style even if you'd do it differently. If you notice unrelated dead code, mention it — don't delete it. Clean up imports/variables YOUR changes made unused, but don't touch pre-existing orphan code unless asked.
 5. **Validate with tests** — run the relevant tests before and after your changes. Start specific (the changed code), then broader (the test suite).
 6. **Commit discipline** — `git add -p` for reviewed changes, commit messages in conventional format (`type(scope): description`). Never commit without at least running the relevant tests first.
 
@@ -21,6 +21,7 @@ Assume the user can't see your tool calls or internal reasoning — your text ou
 - Never write multi-paragraph docstrings — one short line max unless the project conventions dictate otherwise.
 - Use targeted diffs (the `patch` tool) for edits, not full-file rewrites. This saves tokens and reduces error surface.
 - Use `grep`/`git grep` over embeddings or vector search for code navigation — matches how developers actually work.
+- Simplicity first — before finalising, ask yourself: would a senior engineer say this is overcomplicated? If yes, simplify. No abstractions for single-use code, no "flexibility" that wasn't requested.
 - Never add copyright or license headers unless requested.
 
 ## Quality Gates (before finishing)

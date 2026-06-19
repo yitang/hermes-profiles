@@ -1,7 +1,7 @@
 ---
 name: zettelkasten-workflow
-description: "Three-tier Zettelkasten workflow: fleet → literature → permanent notes, via org-roam tagging. Covers PARA inbox audit, capture, processing, linking, and vault discovery."
-version: 1.1.0
+description: "Procedures and reference for Zettelkasten workflow: capture, processing, literature notes, permanent notes, PARA inbox audit, and vault discovery. Core principles are in the Luhmann SOUL.md."
+version: 1.2.0
 author: yitang
 tags: [org-roam, zettelkasten, note-taking, knowledge-management, para]
 ---
@@ -15,6 +15,9 @@ Three note types, distinguished by `#+filetags:`:
 | `:fleet:`      | Raw capture | Scribbles from reading, half-formed    |
 | `:literature:` | Source ref  | Citation + summary of a single source  |
 | (none)         | Permanent   | Your own words, linked, final          |
+
+> Core note-writing principles (atomicity, surgical edits, done criteria) are in
+> the Luhmann profile's SOUL.md. This skill covers procedures and reference material.
 
 ## Vault discovery
 
@@ -36,21 +39,6 @@ for d in /home/tangyi/matrix/*/meta-*/notes; do
   echo "$d — $(ls "$d"/*.org 2>/dev/null | wc -l) notes"
 done
 ```
-
-## Core principle: atomicity
-
-One note = one idea. If a note has multiple unrelated concepts, split it.
-A 322-line note mixing config, routing, release notes, and methodology
-comparisons is not one note — it's an archive that hasn't been processed.
-
-Signs a note violates atomicity:
-- Title is generic ("Hermes Agent Notes") — indicates no single idea
-- Multiple `*` top-level headings covering different domains
-- You can't summarise it in one sentence
-- You'd need to [[id:link]] it to three unrelated hub notes
-
-Fix: extract each concept into its own file, then either delete the
-original or retag it as `:literature:` pointing to the extracted notes.
 
 ## Distinguishing TODOs from fleet notes
 
@@ -226,42 +214,4 @@ for d in /home/tangyi/matrix/*/meta-*/notes; do
 done
 ```
 
-## Why this workflow
-
-- Everything in one folder per vault, no copying between files
-- Processing means retagging, not moving
-- Every note has a clear state (fleet → literature → permanent)
-
-## Key rule
-
-Every fleet note must be processed. If a `:fleet:` note sits unprocessed for more than a week, either process it or delete it.
-
-## Self-review: is your vault healthy?
-
-When the user asks "am I following the slip box method correctly?", run
-this diagnostic:
-
-**Per-note check (sample 3-5 recent notes):**
-
-1. Can you state the single idea in the title? If not, it's not atomic.
-2. Does it have `:fleet:` tag? → it's raw, needs processing.
-3. If permanent: does it link to ≥1 other note? No links = orphan.
-4. Does it contain mixed topics (config + opinions + questions)?
-   → split, then delete or retag the original.
-5. Is the entire body a `[ ]` TODO? → belongs in GTD, not Zettelkasten.
-
-**Vault-level check:**
-
-6. Fraction of notes with zero outgoing links — aim for <30%.
-7. Fraction with `:fleet:` tag older than 1 week — aim for zero.
-8. Do any notes exceed ~200 words without clear paragraph breaks?
-   → likely violating atomicity — extract sub-ideas.
-
-**Action on finding problems:**
-
-| Finding | Action |
-|---------|--------|
-| Fleet note >1 week old | Process it now or delete it |
-| Orphan permanent note | Ask: does this still make sense? If yes, link it to something. If no, delete or archive. |
-| Mixed-content mega note | Extract each section as separate file. Retag original as literature. |
-| TODO posing as note | Move content to task system. Delete the file. |
+Every fleet note must be processed. If a `:fleet:` note sits unprocessed for

@@ -225,7 +225,44 @@ After the fix agent completes, re-run Steps 1-6 (full verification cycle).
 - Failed after 2 attempts: escalate to user with the remaining issues and
   suggest `git stash` or `git reset` to undo
 
-## Step 8 — Commit
+## Step 8 — Alternative: Parallel 3-Agent Cleanup
+
+For changes where three narrow perspectives beat one broad review, use this
+alternative to Steps 5-7. Three subagents run concurrently (same latency as one),
+each focused on a single axis — reuse, quality, efficiency.
+
+### Dispatch
+
+```python
+from hermes_tools import json_parse
+
+tasks = [
+    {"goal": "Review code for DRY violations and reusability opportunities.",
+     "context": f"Recent changes: {git_diff}\nSearch for duplicate logic, extractable helpers, unnecessary complexity.", "toolsets": ["terminal", "file"]},
+    {"goal": "Review code quality: bugs, security, edge cases, naming, error handling.",
+     "context": f"Recent changes: {git_diff}\nCheck all code paths, not just the happy path.", "toolsets": ["terminal", "file"]},
+    {"goal": "Review for performance issues and test coverage gaps.",
+     "context": f"Recent changes: {git_diff}\nSlow queries, N+1, blocking calls, missing tests.", "toolsets": ["terminal", "file"]}
+]
+results = delegate_task(tasks=tasks)  # runs concurrently
+```
+
+### Aggregate
+
+Collect each agent's output, merge duplicate findings, and prioritize by severity.
+
+### Apply
+
+For each fix suggestion, evaluate cost/benefit. Skip trivial style nits. Apply
+structural improvements via `patch` or `write_file`. Re-run tests after changes.
+
+### When to prefer this over Steps 5-7
+
+- Changes span 3+ files
+- You want reuse/quality/efficiency reviewed independently, not sequentially
+- Review latency matters (parallel = one review's latency for three perspectives)
+
+## Step 9 — Commit
 
 If verification passed:
 
